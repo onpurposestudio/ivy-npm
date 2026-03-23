@@ -1,11 +1,26 @@
 {
   "name": "@onpurposestudio/ivy",
   "version": "0.0.2",
-  "description": "Ivy CLI tool",
+  "description": "Ivy CLI by On Purpose Studio",
+  "license": "MIT",
   "bin": {
     "ivy": "./bin/ivy"
   },
+  "scripts": {
+    "postinstall": "chmod +x bin/ivy-*"
+  },
   "files": [
-    "bin"
-  ]
+    "bin/"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "ivy",
+    "onpurposestudio",
+    "cli"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }
