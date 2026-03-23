@@ -4,7 +4,7 @@
   "description": "Ivy CLI by On Purpose Studio",
   "license": "MIT",
   "bin": {
-    "ivy": "./bin/ivy"
+    "ivy": "bin/ivy"
   },
   "scripts": {
     "postinstall": "chmod +x bin/ivy-*"
@@ -15,11 +15,6 @@
   "engines": {
     "node": ">=18"
   },
-  "keywords": [
-    "ivy",
-    "onpurposestudio",
-    "cli"
-  ],
   "publishConfig": {
     "access": "public"
   }
