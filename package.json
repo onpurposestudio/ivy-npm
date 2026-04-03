@@ -1,6 +1,6 @@
 {
   "name": "@onpurposestudio/ivy",
-  "version": "0.0.3",
+  "version": "0.0.4-rc1",
   "description": "Ivy CLI by On Purpose Studio",
   "license": "MIT",
   "bin": {

@@ -1,38 +1,15 @@
-#!/usr/bin/env node
+#!/usr/bin/env bash
+set -euo pipefail
 
-'use strict';
+SOURCE="${BASH_SOURCE[0]}"
+while [ -L "$SOURCE" ]; do
+  DIR="$(cd "$(dirname "$SOURCE")" && pwd)"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ "$SOURCE" != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+SCRIPT_DIR="$(cd "$(dirname "$SOURCE")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-const { spawnSync } = require('child_process');
-const path = require('path');
+RUSTFLAGS="-A warnings" cargo build --manifest-path "$REPO_ROOT/packages/ivy/Cargo.toml" --quiet
 
-const BINARY_MAP = {
-  'darwin-arm64': 'ivy-aarch64-apple-darwin',
-  'darwin-x64':   'ivy-x86_64-apple-darwin',
-  'win32-x64':    'ivy-x86_64-pc-windows-msvc.exe',
-  'linux-x64':    'ivy-x86_64-unknown-linux-musl',
-};
-
-const key = `${process.platform}-${process.arch}`;
-const binaryName = BINARY_MAP[key];
-
-if (!binaryName) {
-  process.stderr.write(
-    `ivy: unsupported platform/architecture: ${process.platform}/${process.arch}\n` +
-    `Supported targets: ${Object.keys(BINARY_MAP).join(', ')}\n`
-  );
-  process.exit(1);
-}
-
-const binaryPath = path.join(__dirname, binaryName);
-
-const result = spawnSync(binaryPath, process.argv.slice(2), {
-  stdio: 'inherit',
-  windowsHide: false,
-});
-
-if (result.error) {
-  process.stderr.write(`ivy: failed to launch binary: ${result.error.message}\n`);
-  process.exit(1);
-}
-
-process.exit(result.status ?? 1);
+IVY_TOKEN="beta" "$REPO_ROOT/packages/ivy/target/debug/ivy" "$@"
